@@ -14,14 +14,14 @@ bin=`cd "$bin"; pwd`
 SERVER_PORT=$1
 SERVER_CLASS_NAME="com.mozilla.tabaqui.http.Tabaqui"
 NOW=`date "+%Y%m%d%H%M%S"`
-BAGHEERA_OPTS="-Dserver.port=$SERVER_PORT -Dtabaqui.log.dir=$bin/../logs"
+TABAQUI_OPTS="-Dserver.port=$SERVER_PORT -Dtabaqui.log.dir=$bin/../logs"
 GC_OPTS="-XX:+PrintHeapAtGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintTenuringDistribution -Xloggc:$bin/../logs/gc.log.$NOW"
-JAVA_OPTS="$BAGHEERA_OPTS -Xms1024m -Xmx1024m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:NewRatio=3 -XX:+UseCompressedOops $GC_OPTS"
+JAVA_OPTS="$TABAQUI_OPTS -Xms256m -Xmx512m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:NewRatio=3 -XX:+UseCompressedOops $GC_OPTS"
 
 export MALLOC_ARENA_MAX=2
 
-if [ "$BAGHEERA_USER" = "" ]; then
-    BAGHEERA_USER="$USER"
+if [ "$TABAQUI_USER" = "" ]; then
+    TABAQUI_USER="$USER"
 fi
 
 if [ -d "/var/run/tabaqui" ]; then

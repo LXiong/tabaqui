@@ -45,14 +45,19 @@ public class TextFileDirectoryReader  {
     
     public TextFileDirectoryReader(Path inputPath) throws IOException {
         fs = FileSystem.get(inputPath.toUri(), conf);
+        if (fs == null) {
+            throw new IllegalArgumentException("Filesystem could not be obtained");
+        }
+
         paths = new ArrayList<Path>();
-        for(FileStatus status : fs.listStatus(inputPath)) {
-            Path p = status.getPath();
-            if (!status.isDir() && !p.getName().startsWith("_")) {
-                paths.add(p);
+        if (fs.exists(inputPath)) {
+            for(FileStatus status : fs.listStatus(inputPath)) {
+                Path p = status.getPath();
+                if (!status.isDir() && !p.getName().startsWith("_")) {
+                    paths.add(p);
+                }
             }
         }
-        
         pathIter = paths.iterator();
     }
     
